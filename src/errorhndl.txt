@@ -1,0 +1,2 @@
+trycatch?
+try catch every db operation, return the caught error
