@@ -107,7 +107,7 @@ export class IncidentReportRepositoryMongoDb implements IIncidentReportRepositor
     }
     async update(uuid: string, newReport: IncidentReport): Promise<IncidentReport | null> {
         try{
-            const result = await this.incidentReports.updateOne({uuid: uuid}, newReport)
+            const result = await this.incidentReports.updateOne({uuid: uuid},[{ $set: newReport}] )
             if (result.matchedCount === 0){
                 return null
             }

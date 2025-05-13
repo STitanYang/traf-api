@@ -84,7 +84,7 @@ export class UserRepositoryMongoDB implements IUserRepository{
     }
     async update(username: string, newUserData: User): Promise<User|null>{
         try{
-            const result = await this.users.updateOne({username: username}, User)
+            const result = await this.users.updateOne({username: username}, [{ $set: newUserData}])
             if (result.matchedCount === 0){
                 return null
             }

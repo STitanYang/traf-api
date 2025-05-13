@@ -84,7 +84,7 @@ export class NewsRepositoryMongoDb implements INewsRepository{
     }
     async update(uuid: string, newNews: NewsItem): Promise<NewsItem | null> {
         try{
-            const result = await this.newsItems.updateOne({uuid: uuid}, newNews)
+            const result = await this.newsItems.updateOne({uuid: uuid}, [{ $set: newNews }])
             if (result.matchedCount === 0){
                 return null
             }
