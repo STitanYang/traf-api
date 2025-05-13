@@ -3,26 +3,26 @@ import { newsItemService } from "../service/newsItemService"
 import { NotFoundError } from "../error/error"
 
 export const getAllNews = async(_req: Request, res: Response) => {
-    const foundNews = newsItemService.getAll()
+    const foundNews = await newsItemService.getAll()
     res.status(200).json(foundNews)
 }
 export const getNewsItem = async(req: Request, res: Response) => {
     const {uuid} = req.params
-    const foundNews = newsItemService.getById(uuid)
+    const foundNews = await newsItemService.getById(uuid)
     if (foundNews === null){
         throw new NotFoundError(`newsitem: ${uuid}`)
     }
     res.status(200).json(foundNews) 
 }
 export const createNews = async(req: Request, res: Response) =>{
-    const {title, body, image} = req.params
-    const news = newsItemService.create(title, body, image)
+    const {title, body, image} = req.body
+    const news = await newsItemService.create(title, body, image)
     res.status(200).json(news)
 }
 export const updateNews = async(req: Request, res: Response) => {
     const {uuid} = req.params
-    const {title, body, image} = req.params
-    const newNews = newsItemService.update(uuid, title, body, image)
+    const {title, body, image} = req.body
+    const newNews = await newsItemService.update(uuid, title, body, image)
     if (newNews === null){
         throw new NotFoundError(`newsitem: ${uuid}`)
     }
@@ -30,6 +30,6 @@ export const updateNews = async(req: Request, res: Response) => {
 }
 export const deleteNews = async(req: Request, res: Response) => {
     const{uuid} = req.params
-    newsItemService.delete(uuid)
+    await newsItemService.delete(uuid)
     res.status(200)
 }
