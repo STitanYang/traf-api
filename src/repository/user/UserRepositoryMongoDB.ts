@@ -25,7 +25,7 @@ const userSchema = {
                 description: 'string, required'
             },
             role: {
-                enum: ['admininstrator', 'user'],
+                enum: ['administrator', 'user'],
                 description: 'enum, required'
             }
         }
