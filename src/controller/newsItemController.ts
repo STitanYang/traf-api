@@ -31,5 +31,5 @@ export const updateNews = async(req: Request, res: Response) => {
 export const deleteNews = async(req: Request, res: Response) => {
     const{uuid} = req.params
     await newsItemService.delete(uuid)
-    res.status(200)
+    res.status(200).json('successfully deleted')
 }

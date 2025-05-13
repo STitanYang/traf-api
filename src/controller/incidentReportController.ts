@@ -55,5 +55,5 @@ export const approve = async (req: Request, res: Response) => {
 export const remove = async (req: Request, res: Response) => {
     const {uuid} = req.params
     await incidentReportService.delete(uuid)
-    res.status(200).json()
+    res.status(200).json('successfully deleted')
 }

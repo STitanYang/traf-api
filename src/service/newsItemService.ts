@@ -24,7 +24,7 @@ class NewsItemService{
         return this.niRepo.update(uuid, news)
     }
     async delete(uuid: string): Promise<void>{
-        return this.niRepo.delete(uuid)
+        return await this.niRepo.delete(uuid)
     }
 }
 export const newsItemService = new NewsItemService(newsItemRepository)
