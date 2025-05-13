@@ -1,7 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
-dotenv.config()
+dotenv.config({path: __dirname + `/../.env`})
 import router from './router/router'
 import {handleError} from './middleware/errorHandlerMiddleware'
 const app = express()
