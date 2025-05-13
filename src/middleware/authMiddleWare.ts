@@ -4,8 +4,11 @@ import {Role} from '../model/User'
 import {UnauthError} from '../error/error'
 
 export const authenticateAdmin = async (req: Request, res: Response, next: NextFunction) =>{
-    // const token = req.get('token') 
-    const { token } = req.cookies
+    let token = req.get('token') 
+    if (typeof token === 'undefined'){
+        const { tokenCookie } = req.cookies
+        token = tokenCookie
+    }
     if(typeof token === 'string'){
         const userdata = await authService.authenticate(token)
         if (userdata?.role === Role.Administrator){
