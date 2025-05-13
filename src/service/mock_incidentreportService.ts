@@ -1,3 +1,4 @@
+import {v4 as uuidv4} from 'uuid'
 import { IncidentReport, IncidentReportData, IncidentType } from "../model/IncidentReport";
 import { IIncidentReportRepository } from "../repository/interface/IIncidentReportRepository";
 import { IUserRepository } from "../repository/interface/IUserRepository";
@@ -12,21 +13,21 @@ class IncidentReportService{
     }
     async getByUsername(username: string): Promise<IncidentReportData[]>{
         let result: IncidentReport[] = []
-        const report = new IncidentReport(username,'location_1',IncidentType.Kecelakaan,String(Date.now()) ,'lorem ipsum')
+        const report = new IncidentReport(uuidv4(),username,'location_1',IncidentType.Kecelakaan,String(Date.now()) ,'lorem ipsum')
         result.push(report)
         result.push(report)
         return result.map(ir => ir.getData())
     }
     async getByLocation(locationId: string): Promise<IncidentReportData[]>{
         let result: IncidentReport[] = []
-        const report = new IncidentReport('user1',locationId,IncidentType.Kecelakaan,String(Date.now()) ,'lorem ipsum')
+        const report = new IncidentReport(uuidv4(),'user1',locationId,IncidentType.Kecelakaan,String(Date.now()) ,'lorem ipsum')
         result.push(report)
         result.push(report)
         return result.map(ir => ir.getData())
     }
     async add(username: string, locationId: string, type: IncidentType, desc: string): Promise<IncidentReportData|null>{
         const datetime = Date.now()
-        const newReport = new IncidentReport(username, locationId, type, String(datetime),desc)
+        const newReport = new IncidentReport(uuidv4(), username, locationId, type, String(datetime),desc)
         const res = await this.incidentReportRepository.create(newReport)
         return res!.getData()
     }

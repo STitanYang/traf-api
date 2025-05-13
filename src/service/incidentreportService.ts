@@ -2,6 +2,7 @@ import { IncidentReport, IncidentReportData, IncidentType } from "../model/Incid
 import { IIncidentReportRepository } from "../repository/interface/IIncidentReportRepository";
 import { IUserRepository } from "../repository/interface/IUserRepository";
 import { incidentReportRepository, userRepository } from "../repository/repoExporter";
+import {v4 as uuidv4} from 'uuid'
 
 class IncidentReportService{
     incidentReportRepository: IIncidentReportRepository
@@ -21,7 +22,8 @@ class IncidentReportService{
     }
     async add(username: string, locationId: string, type: IncidentType, desc: string): Promise<IncidentReportData|null>{
         const datetime = Date.now()
-        const newReport = new IncidentReport(username, locationId, type, String(datetime),desc)
+        const uuid = uuidv4()
+        const newReport = new IncidentReport(uuid, username, locationId, type, String(datetime),desc)
         const res = await this.incidentReportRepository.create(newReport)
         return res!.getData()
     }

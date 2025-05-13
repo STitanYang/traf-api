@@ -1,4 +1,3 @@
-import {v4 as uuidv4} from 'uuid'
 export enum IncidentType{
     Kecelakaan = 'kecelakaan',
     Macet = 'macet',
@@ -25,8 +24,8 @@ export class IncidentReport{
     isApproved: boolean
     _voters: string[]
 
-    constructor(username: string, locationId: string, type: IncidentType, time: string, desc: string){
-        this.uuid = uuidv4()
+    constructor(uuid: string, username: string, locationId: string, type: IncidentType, time: string, desc: string){
+        this.uuid = uuid
         this.username = username
         this.locationId = locationId
         this.type = type
