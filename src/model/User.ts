@@ -1,5 +1,5 @@
 export enum Role{
-    Adminstrator = 'admininstrator',
+    Administrator = 'administrator',
     User = 'user'
 }
 export type UserData = {

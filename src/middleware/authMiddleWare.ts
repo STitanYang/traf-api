@@ -7,7 +7,7 @@ export const authenticateAdmin = async (req: Request, res: Response, next: NextF
     const token = req.get('token') 
     if(typeof token === 'string'){
         const userdata = await authService.authenticate(token)
-        if (userdata?.role === Role.Adminstrator){
+        if (userdata?.role === Role.Administrator){
             res.locals.username = userdata?.username
             res.locals.role = userdata?.role
             next()
