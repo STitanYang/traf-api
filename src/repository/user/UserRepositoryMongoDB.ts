@@ -1,4 +1,4 @@
-import {Db, Collection, BSONType} from 'mongodb'
+import {Db, Collection} from 'mongodb'
 import {User} from '../../model/User'
 import {IUserRepository} from '../interface/IUserRepository'
 import { MongoDbConnection } from '../../util/mongoDbConnector';
@@ -13,11 +13,11 @@ const userSchema = {
                 description: 'string, required, unique'
             },
             email:{
-                BSONType: 'string',
+                bsonType: 'string',
                 description: 'string, required'
             },
             profileImageBase64:{
-                BSONType: 'string',
+                bsonType: 'string',
                 description: 'string, required'
             },
             passwordHash:{
