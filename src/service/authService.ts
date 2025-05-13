@@ -3,17 +3,22 @@ import {IUserRepository} from '../repository/interface/IUserRepository'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import {userRepository} from '../repository/repoExporter'
+import {readFileSync} from 'fs'
 
 class AuthService{
     private userRepository: IUserRepository
+    private defaultImageBase64: string
 
     constructor(ur: IUserRepository){
         this.userRepository = ur
+        this.defaultImageBase64 = readFileSync('../assets/user-default.webp', {encoding: 'base64'})
     }
-    async register(username: string, password: string): Promise<UserData|null>{
+    async register(username: string, email: string, password: string): Promise<UserData|null>{
         const hash = await bcrypt.hash(password, 10)
         let newUser = new User(
             username,
+            email,
+            this.defaultImageBase64,
             hash,
             Role.User 
         )

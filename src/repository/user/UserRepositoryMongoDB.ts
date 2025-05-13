@@ -1,4 +1,4 @@
-import {Db, Collection} from 'mongodb'
+import {Db, Collection, BSONType} from 'mongodb'
 import {User} from '../../model/User'
 import {IUserRepository} from '../interface/IUserRepository'
 import { MongoDbConnection } from '../../util/mongoDbConnector';
@@ -6,11 +6,19 @@ import { MongoDbConnection } from '../../util/mongoDbConnector';
 const userSchema = {
     $jsonSchema: {
         bsonType: 'object',
-        required: ['username','passwordHash', 'role'],
+        required: ['username','email','profileImageBase64','passwordHash', 'role'],
         properties: {
             username: {
                 bsonType: 'string',
                 description: 'string, required, unique'
+            },
+            email:{
+                BSONType: 'string',
+                description: 'string, required'
+            },
+            profileImageBase64:{
+                BSONType: 'string',
+                description: 'string, required'
             },
             passwordHash:{
                 bsonType: 'string',

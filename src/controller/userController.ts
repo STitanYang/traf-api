@@ -18,11 +18,11 @@ export const getAllusers = async (_req: Request, res: Response) => {
     return
 }
 export const register = async (req: Request, res: Response) => {
-    const { username, password } = req.body
+    const { username, email, password } = req.body
     if (username == undefined || password == undefined) {
         throw new InvalidReqError()
     }
-    let user = await authService.register(username, password)
+    let user = await authService.register(username, email, password)
     if (user === null) {
         throw new InvalidAuthError()
     }
