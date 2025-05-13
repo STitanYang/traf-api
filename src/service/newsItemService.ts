@@ -19,6 +19,7 @@ class NewsItemService{
     }
     async update(uuid: string,title: string, body: string, image: string): Promise<NewsItem|null>{
         const news = new NewsItem(title, body, image, String(Date.now()))
+        news.uuid = uuid
         return this.niRepo.update(uuid, news)
     }
     async delete(uuid: string): Promise<void>{
