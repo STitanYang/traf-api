@@ -21,7 +21,11 @@ export const authenticateAdmin = async (req: Request, res: Response, next: NextF
     throw new UnauthError()
 }
 export const authenticateUser = async (req: Request, res: Response, next: NextFunction) =>{
-    const token = req.get('token') 
+    let token = req.get('token') 
+    if (typeof token === 'undefined'){
+        const { tokenCookie } = req.cookies
+        token = tokenCookie
+    }
     if(typeof token === 'string'){
         const userdata = await authService.authenticate(token)
         res.locals.username = userdata?.username
