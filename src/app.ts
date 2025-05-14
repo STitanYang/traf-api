@@ -6,7 +6,7 @@ import router from './router/router'
 import {handleError} from './middleware/errorHandlerMiddleware'
 import cookie from 'cookie-parser'
 const app = express()
-const port = process.env.PORT || 9999
+const port = process.env.API_PORT || 9999
 
 
 app.listen(port, () => {
