@@ -1,5 +1,6 @@
+import bcrypt from 'bcrypt'
 import { IUserRepository } from '../repository/interface/IUserRepository'
-import {UserData} from '../model/User'
+import {Role, User, UserData} from '../model/User'
 import {userRepository} from '../repository/repoExporter'
 //TODO: result type?
 class UserService{
@@ -15,6 +16,15 @@ class UserService{
     async getAllUsers(): Promise<UserData[]>{
         const res = await this.userRepository.getAll()
         return res.map((user) => user.getData() )
+    }
+    async updateUser(username: string, email: string, image: string, password: string): Promise<UserData|null>{
+        const hash = await bcrypt.hash(password, 10)
+        const newUser = new User(username, email, image, hash, Role.User)
+        const res = await userRepository.update(username, newUser)
+        if (res === null){
+            return null
+        }
+        return newUser.getData()
     }
 }
 const userService = new UserService(userRepository)
