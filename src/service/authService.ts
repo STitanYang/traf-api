@@ -11,7 +11,8 @@ class AuthService{
 
     constructor(ur: IUserRepository){
         this.userRepository = ur
-        this.defaultImageBase64 = readFileSync(__dirname + '/../../assets/user-default.webp', {encoding: 'base64'})
+        const defaultImage = readFileSync(__dirname + '/../../assets/user-default.webp', {encoding: 'base64'})
+        this.defaultImageBase64 = `data:image/webp;base64,${defaultImage}`
     }
     async register(username: string, email: string, password: string): Promise<UserData|null>{
         const hash = await bcrypt.hash(password, 10)
