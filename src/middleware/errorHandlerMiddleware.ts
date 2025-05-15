@@ -2,7 +2,7 @@ import {Request, Response, NextFunction,} from 'express'
 import {BaseError} from '../error/error'
 
 export const handleError = async (err: Error, _req: Request , res: Response, _next: NextFunction) => {
-    console.error(err)
+    console.dir(err,{depth: null})
     if (err instanceof BaseError){
         res.status(err.statusCode).json(err.responseMessage)
         return 
