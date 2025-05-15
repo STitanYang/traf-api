@@ -11,7 +11,15 @@ class UserService{
     }
     async getById(username: string): Promise<UserData|null>{
         const res = await this.userRepository.getById(username)
-        return res?.getData()||null
+        if (res === null){
+            return null
+        }
+        return {
+            username: res.username,
+            email: res.email,
+            profileImageBase64: res.profileImageBase64,
+            role: res.role
+        }
     }
     async getAllUsers(): Promise<UserData[]>{
         const res = await this.userRepository.getAll()
