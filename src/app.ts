@@ -5,6 +5,7 @@ dotenv.config({path: __dirname + `/../.env`})
 import router from './router/router'
 import {handleError} from './middleware/errorHandlerMiddleware'
 import cookie from 'cookie-parser'
+import { generateAdminAccount } from './util/initFunctions'
 const app = express()
 const port = process.env.API_PORT || 9999
 
@@ -12,6 +13,7 @@ const port = process.env.API_PORT || 9999
 app.listen(port, () => {
     console.log('started...')
 })
+generateAdminAccount(process.env.API_ADMIN_USERNAME||'admin', process.env.API_ADMIN_PASSWORD || 'password1')
 //TODO: setup cors from env var
 app.use(cookie())
 app.use(cors())
