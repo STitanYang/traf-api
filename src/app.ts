@@ -10,7 +10,7 @@ const app = express()
 const port = process.env.API_PORT || 9999
 
 const corsOption = {
-    origin: '*',
+    origin: process.env.CLIENT_HOST,
     credentials: true,
 }
 app.listen(port, () => {
