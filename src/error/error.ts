@@ -40,7 +40,10 @@ export class UnauthError extends BaseError{
     }
 }
 export class InvalidReqError extends BaseError{
-    constructor(){
-        super(400, 'invalid request body')
+    invalidReqMessage?: string
+    constructor(...message: string[]){
+        const invalidReqMessage = message.join('\n')
+        super(400,'invalid request body' + '\n' + invalidReqMessage)
+        this.invalidReqMessage = invalidReqMessage
     }
 }
