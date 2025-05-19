@@ -9,7 +9,7 @@ const router = Router()
 
 router.use('/', authRouter)
 router.use('/user', userRouter)
-router.use('/report', reportRouter)
+// router.use('/report', reportRouter)
 router.use('/news', newsItemRouter)
 
 router.use((_req: Request, res: Response) => {

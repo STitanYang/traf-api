@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import userService from '../service/userService'
-import { InvalidAuthError, InvalidReqError, NotFoundError, UnauthError } from '../error/error'
+import { InvalidAuthError, NotFoundError, ResourceConflictError, UnauthError } from '../error/error'
 import authService from '../service/authService'
 
 export const getUserByUsername = async (req: Request, res: Response) => {
@@ -19,8 +19,9 @@ export const getAllusers = async (_req: Request, res: Response) => {
 }
 export const register = async (req: Request, res: Response) => {
     const { username, email, password } = req.body
-    if (username == undefined || password == undefined) {
-        throw new InvalidReqError()
+    const isUserExists = await userService.getById(username) !== null
+    if (isUserExists) {
+        throw new ResourceConflictError(`username: ${username}`)
     }
     let user = await authService.register(username, email, password)
     if (user === null) {
@@ -31,9 +32,6 @@ export const register = async (req: Request, res: Response) => {
 }
 export const login = async (req: Request, res: Response) => {
     const { username, password } = req.body
-    if (username == undefined || password == undefined) {
-        throw new InvalidReqError()
-    }
     const token = await authService.login(username, password)
     if (token === null) {
         throw new InvalidAuthError()
@@ -44,16 +42,13 @@ export const login = async (req: Request, res: Response) => {
     return
 }
 export const editUser = async (req: Request, res: Response) => {
-    const { username, email, image, oldPassword, newPassword} = req.body
-    if (authService.login(username, oldPassword) === null){
+    const { username, email, image, oldPassword, newPassword } = req.body
+    if (authService.login(username, oldPassword) === null) {
         throw new UnauthError()
-    }
-    if (username == undefined || newPassword == undefined) {
-        throw new InvalidReqError()
     }
     let user = await userService.updateUser(username, email, image, newPassword)
     if (user === null) {
-        throw new InvalidAuthError()
+        throw new NotFoundError(`user: ${username}`)
     }
     res.status(200).json(user)
     return
