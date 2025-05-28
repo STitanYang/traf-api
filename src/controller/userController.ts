@@ -42,11 +42,8 @@ export const login = async (req: Request, res: Response) => {
     return
 }
 export const editUser = async (req: Request, res: Response) => {
-    const { username, email, image, oldPassword, newPassword } = req.body
-    if (authService.login(username, oldPassword) === null) {
-        throw new UnauthError()
-    }
-    let user = await userService.updateUser(username, email, image, newPassword)
+    const { username, email, image} = req.body
+    let user = await userService.updateUser(username, email, image)
     if (user === null) {
         throw new NotFoundError(`user: ${username}`)
     }

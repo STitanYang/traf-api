@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt'
 import { IUserRepository } from '../repository/interface/IUserRepository'
 import {Role, User, UserData} from '../model/User'
 import {userRepository} from '../repository/repoExporter'
+import { use } from '../router/newsItemRouter';
 //TODO: result type?
 class UserService{
     private userRepository: IUserRepository;
@@ -25,14 +26,16 @@ class UserService{
         const res = await this.userRepository.getAll()
         return res.map((user) => user.getData() )
     }
-    async updateUser(username: string, email: string, image: string, password: string): Promise<UserData|null>{
-        const hash = await bcrypt.hash(password, 10)
-        const newUser = new User(username, email, image, hash, Role.User)
-        const res = await userRepository.update(username, newUser)
-        if (res === null){
+    async updateUser(username: string, email: string, image: string): Promise<UserData|null>{
+        let changedUser = await userRepository.getById(username)
+        if (changedUser === null){
             return null
         }
-        return newUser.getData()
+        changedUser.username = username
+        changedUser.email = email
+        changedUser.profileImageBase64 = image
+        await userRepository.update(username, changedUser)
+        return changedUser.getData()
     }
 }
 const userService = new UserService(userRepository)
