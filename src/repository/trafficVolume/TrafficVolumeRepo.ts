@@ -1,46 +1,7 @@
 import { Collection, Db, MongoClient } from "mongodb";
 import { TrafficVolume } from "../../model/TrafficVolume";
 import { ITrafficVolumeRepository } from "../interface/ITrafficVolumeRepository";
-import strftime from "strftime";
 
-const trafficDataSchema = {
-    "$jsonSchema": {
-        "bsonType": "object",
-        "required": ["congestion_level", "datetime", "location"],
-        "properties": {
-            "congestion_level": {
-                "bsonType": "int"
-            },
-            "datetime": {
-                "bsonType": "string"
-            },
-            "location": {
-                "bsonType": "string"
-            },
-        }
-    }
-}
-const trafficPredSchema = {
-    "$jsonSchema": {
-        "bsonType": "object",
-        "required": [
-            "congestionLevelPredicted",
-            "datetime",
-            "location",
-        ],
-        "properties": {
-            "congestionLevelPredicted": {
-                "bsonType": "int"
-            },
-            "datetime": {
-                "bsonType": "string"
-            },
-            "location": {
-                "bsonType": "string"
-            },
-        }
-    }
-}
 export class TrafficVolumeRepository implements ITrafficVolumeRepository {
     private db: Db
     private trafficData!: Collection
@@ -67,9 +28,8 @@ export class TrafficVolumeRepository implements ITrafficVolumeRepository {
             const tv = new TrafficVolume(data.datetime, data.location, data.congestion_level, false)
             volumeRange.push(tv)
         }
-        console.log(volumeRange[volumeRange.length-1].datetime)
-        if (Number(volumeRange[volumeRange.length-1].datetime) < Number(timestampEnd)) {
-            const res = await this.trafficPrediction.find({ 'location': locationId, 'datetime': { $gt: volumeRange[volumeRange.length-1].datetime, $lt: timestampEnd } }).toArray()
+        if (Number(volumeRange[volumeRange.length - 1].datetime) < Number(timestampEnd)) {
+            const res = await this.trafficPrediction.find({ 'location': locationId, 'datetime': { $gt: volumeRange[volumeRange.length - 1].datetime, $lt: timestampEnd } }).toArray()
             for (var data of res) {
                 const tv = new TrafficVolume(data.datetime, data.location, data.congestionLevelPredicted, true)
                 volumeRange.push(tv)
