@@ -66,7 +66,7 @@ export class TrafficVolumeRepository implements ITrafficVolumeRepository {
         for (var i = 0; i <= 23; i++) {
             const res = await this.trafficData.findOne({'location':'Tugu Jogja','datetime':'2025051319'})
             console.log(res)
-            const td =  new TrafficVolume(res?.datetime, res?.location, res?.congestion_level)
+            const td =  new TrafficVolume(res?.datetime, res?.location, res?.congestion_level, false)
             volumeRange.push(td)
         }
         return volumeRange
