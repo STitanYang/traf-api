@@ -8,4 +8,4 @@ export const userRepository = new UserRepositoryMongoDB()
 export const trafficLocationRepository = new TrafficLocationRepositoryMongoDB()
 export const incidentReportRepository = new IncidentReportRepositoryMongoDb()
 export const newsItemRepository = new NewsRepositoryMongoDb()
-// export const trafficVolumeRepository = new TrafficVolumeRepository
+export const trafficVolumeRepository = new TrafficVolumeRepository
