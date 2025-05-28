@@ -84,7 +84,6 @@ export class UserRepositoryMongoDB implements IUserRepository{
     }
     async update(username: string, newUserData: User): Promise<User|null>{
         try{
-            console.log(newUserData.passwordHash)
             const updateData = { $set: { 
                 username: newUserData.username,
                 passwordHash : newUserData.passwordHash,

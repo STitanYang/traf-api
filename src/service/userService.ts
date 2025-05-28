@@ -26,16 +26,21 @@ class UserService{
         const res = await this.userRepository.getAll()
         return res.map((user) => user.getData() )
     }
-    async updateUser(username: string, email: string, image: string): Promise<UserData|null>{
-        let changedUser = await userRepository.getById(username)
+    async updateUser(oldUsername: string, username: string, email: string, image: string): Promise<UserData|null>{
+        let changedUser = await userRepository.getById(oldUsername)
         if (changedUser === null){
             return null
         }
         changedUser.username = username
         changedUser.email = email
         changedUser.profileImageBase64 = image
-        await userRepository.update(username, changedUser)
-        return changedUser.getData()
+        await userRepository.update(oldUsername, changedUser)
+        return {
+            username: changedUser.username,
+            email: changedUser.email,
+            profileImageBase64: changedUser.profileImageBase64,
+            role: changedUser.role
+        }
     }
 }
 const userService = new UserService(userRepository)

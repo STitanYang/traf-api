@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import userService from '../service/userService'
 import { InvalidAuthError, NotFoundError, ResourceConflictError, UnauthError } from '../error/error'
 import authService from '../service/authService'
+import { use } from '../router/newsItemRouter'
 
 export const getUserByUsername = async (req: Request, res: Response) => {
     const { username } = req.params
@@ -42,8 +43,9 @@ export const login = async (req: Request, res: Response) => {
     return
 }
 export const editUser = async (req: Request, res: Response) => {
+    const {existingUsername} = req.params
     const { username, email, image} = req.body
-    let user = await userService.updateUser(username, email, image)
+    let user = await userService.updateUser(existingUsername, username, email, image)
     if (user === null) {
         throw new NotFoundError(`user: ${username}`)
     }

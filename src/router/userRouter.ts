@@ -7,7 +7,7 @@ import { validateBase64Image } from '../util/validator/imageValidator'
 
 const userRouter = Router()
 userRouter.use(authenticateUser)
-userRouter.put('/:username', [validateUsername, validateEmail, validateBase64Image, validateNewPassword], validateRequest, editUser)
+userRouter.put('/:existingUsername', [validateUsername, validateEmail], validateRequest, editUser)
 userRouter.get('/:username', getUserByUsername)
 userRouter.get('/users', getAllusers)
 
